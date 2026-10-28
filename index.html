@@ -1,0 +1,1118 @@
+<title>Donazione</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+<style>
+  /* Layout: single-column centered, card-based, mobile-first */
+  :root {
+    --bg: #f8f7f5;
+    --surface: #ffffff;
+    --border: #e8e4de;
+    --fg: #1a1814;
+    --fg-muted: #7a746b;
+    --accent: #2d6a4f;
+    --accent-light: #d8ede3;
+    --accent-fg: #ffffff;
+    --danger: #c0392b;
+    --danger-light: #fdecea;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+    --radius: 14px;
+    --font: 'Inter', system-ui, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141210;
+      --surface: #1e1c1a;
+      --border: #2e2b27;
+      --fg: #f0ede8;
+      --fg-muted: #8a847c;
+      --accent: #40a070;
+      --accent-light: #1a3028;
+      --accent-fg: #ffffff;
+      --danger: #e05a4a;
+      --danger-light: #2a1614;
+      --shadow: 0 2px 16px rgba(0,0,0,0.3);
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #141210;
+    --surface: #1e1c1a;
+    --border: #2e2b27;
+    --fg: #f0ede8;
+    --fg-muted: #8a847c;
+    --accent: #40a070;
+    --accent-light: #1a3028;
+    --accent-fg: #ffffff;
+    --danger: #e05a4a;
+    --danger-light: #2a1614;
+    --shadow: 0 2px 16px rgba(0,0,0,0.3);
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--fg);
+    min-height: 100%;
+    padding-block: 32px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .container {
+    max-width: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding-block: 8px 4px;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .logo-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .logo h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--fg);
+  }
+
+  /* Animazione scritta che entra nella borsa */
+  @keyframes floatIn {
+    0%   { opacity: 0; transform: translateY(-18px) scale(0.7); }
+    40%  { opacity: 1; transform: translateY(0px) scale(1.05); }
+    60%  { transform: translateY(0px) scale(1); }
+    80%  { opacity: 1; transform: translateY(0px); }
+    100% { opacity: 0; transform: translateY(10px) scale(0.5); }
+  }
+
+  @keyframes bagWiggle {
+    0%,100% { transform: rotate(0deg); }
+    20%     { transform: rotate(-6deg); }
+    40%     { transform: rotate(5deg); }
+    60%     { transform: rotate(-3deg); }
+    80%     { transform: rotate(2deg); }
+  }
+
+  @keyframes handleBounce {
+    0%,100% { transform: scaleY(1); }
+    50%     { transform: scaleY(1.18); }
+  }
+
+  .bag-svg { overflow: visible; }
+
+  .bag-body {
+    transform-origin: center 36px;
+    animation: bagWiggle 1.4s ease-in-out 1.1s 1;
+  }
+
+  .bag-handle {
+    transform-origin: center 14px;
+    animation: handleBounce 0.5s ease-in-out 1.0s 1;
+  }
+
+  .bag-label {
+    animation: floatIn 1.2s cubic-bezier(.4,0,.2,1) 0s 1 forwards;
+    transform-origin: center center;
+  }
+
+  .header p {
+    font-size: 14px;
+    color: var(--fg-muted);
+    line-height: 1.5;
+  }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-title .icon svg { width: 15px; height: 15px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin-bottom: 16px;
+    line-height: 1.55;
+    margin-left: 36px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    width: 100%;
+    font-family: var(--font);
+  }
+
+  .btn:active { transform: scale(0.98); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  .btn-primary:hover { opacity: 0.88; }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--fg);
+    border: 1.5px solid var(--border);
+  }
+
+  .btn-outline:hover { background: var(--bg); }
+
+  .btn-danger {
+    background: var(--danger);
+    color: white;
+  }
+
+  .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+  .btn-sm {
+    padding: 7px 14px;
+    font-size: 13px;
+    width: auto;
+    border-radius: 8px;
+  }
+
+  /* Input */
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .input-label { font-size: 12px; font-weight: 600; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .input-row { display: flex; gap: 8px; }
+
+  input[type="text"] {
+    flex: 1;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--fg);
+    font-family: var(--font);
+    outline: none;
+    transition: border-color 0.15s;
+    min-width: 0;
+  }
+
+  input[type="text"]:focus { border-color: var(--accent); }
+  input[type="text"]::placeholder { color: var(--fg-muted); }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--fg-muted);
+    font-size: 12px;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Status badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .badge-green { background: var(--accent-light); color: var(--accent); }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* Consent screen */
+  .consent-box {
+    background: var(--accent-light);
+    border: 1.5px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .consent-box h2 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .consent-box p { font-size: 13px; color: var(--fg-muted); line-height: 1.6; margin-bottom: 18px; }
+
+  .consent-who {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .consent-who svg { width: 14px; height: 14px; stroke: var(--accent); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Photo grid */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .photo-thumb {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: var(--border);
+    cursor: pointer;
+  }
+
+  .photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-thumb .remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.55);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .photo-thumb:hover .remove-btn { opacity: 1; }
+  .photo-thumb .remove-btn svg { width: 12px; height: 12px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+  /* Progress bar */
+  .progress-wrap { margin-top: 12px; }
+  .progress-label { font-size: 12px; color: var(--fg-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.3s; }
+
+  /* Notice */
+  .notice {
+    background: var(--danger-light);
+    border: 1px solid var(--danger);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--danger);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+
+  .notice svg { flex-shrink: 0; margin-top: 1px; width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Info notice */
+  .info {
+    background: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--accent);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+
+  .info svg { flex-shrink: 0; margin-top: 1px; width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 10px;
+    object-fit: contain;
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: env(safe-area-inset-top, 0px);
+    right: 0;
+    padding: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 24px;
+    z-index: 101;
+  }
+
+  /* Link copy row */
+  .link-row {
+    display: flex;
+    gap: 8px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .link-row span {
+    flex: 1;
+    font-size: 13px;
+    color: var(--fg-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .link-row button {
+    flex-shrink: 0;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: opacity 0.15s;
+  }
+
+  .link-row button:hover { opacity: 0.85; }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 10px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--accent); color: white;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .step-text { font-size: 13px; color: var(--fg-muted); line-height: 1.55; }
+  .step-text strong { color: var(--fg); font-weight: 600; }
+
+  /* File count chip */
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--accent-light); color: var(--accent);
+    border-radius: 20px; padding: 2px 8px; font-size: 12px; font-weight: 600;
+  }
+
+  /* Utility */
+  .flex { display: flex; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-16 { margin-top: 16px; }
+  .hidden { display: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+
+<!-- ═══════════════════════════════════ MARKUP ═══════════════════════════════════ -->
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg class="bag-svg" viewBox="0 0 64 72" width="64" height="72">
+          <!-- Manico borsa -->
+          <g class="bag-handle">
+            <path d="M22 28 C22 18 42 18 42 28" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round"/>
+          </g>
+          <!-- Corpo borsa -->
+          <g class="bag-body">
+            <rect x="10" y="28" width="44" height="34" rx="7" fill="var(--accent)"/>
+            <!-- Dettaglio serratura -->
+            <rect x="27" y="40" width="10" height="8" rx="3" fill="rgba(255,255,255,0.25)"/>
+            <circle cx="32" cy="43" r="2" fill="rgba(255,255,255,0.5)"/>
+            <!-- Contorno borsa -->
+            <rect x="10" y="28" width="44" height="34" rx="7" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+          </g>
+          <!-- Scritta DONAZIONE che cade nella borsa -->
+          <text
+            class="bag-label"
+            x="32" y="20"
+            text-anchor="middle"
+            font-family="'Inter', sans-serif"
+            font-size="8"
+            font-weight="700"
+            letter-spacing="0.5"
+            fill="var(--accent)"
+          >DONAZIONE</text>
+        </svg>
+      </div>
+      <h1>Donazione</h1>
+    </div>
+
+  </div>
+
+  <!-- ───── SCHERMATA 1: Scegli ruolo ───── -->
+  <div id="screen-home">
+
+    <div class="card">
+      <div class="card-title">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        Come funziona
+      </div>
+      <div class="card-desc" style="margin-bottom:14px;">
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Crea una stanza</strong> e copia il link che ottieni.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Manda il link</strong> all'altra persona via WhatsApp, SMS o come vuoi.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">L'altra persona apre il link, <strong>legge cosa sta condividendo</strong> e dà il consenso.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Le foto appaiono nella tua schermata <strong>in tempo reale</strong>.</div></div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="btn-create-room">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Crea stanza e ricevi foto
+      </button>
+
+      <!-- Campo nascosto — serve solo quando si arriva via link -->
+      <input type="text" id="room-code-input" style="display:none" autocomplete="off">
+    </div>
+
+  </div>
+
+  <!-- ───── SCHERMATA 2: Sei il RICEVITORE (aspetti le foto) ───── -->
+  <div id="screen-receiver" class="hidden">
+
+    <div class="card">
+      <div class="flex items-center justify-between gap-8" style="margin-bottom:12px;">
+        <div class="card-title" style="margin-bottom:0">
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </div>
+          Link da condividere
+        </div>
+        <span class="badge badge-green"><span class="badge-dot"></span>Stanza attiva</span>
+      </div>
+
+      <div class="link-row">
+        <span id="share-link-text">—</span>
+        <button id="btn-copy-link">Copia</button>
+      </div>
+
+      <p style="font-size:12px;color:var(--fg-muted);margin-top:8px;line-height:1.5;">
+        Manda questo link alla persona da cui vuoi ricevere le foto. Aprendo il link vedrà una schermata di consenso prima di condividere qualsiasi cosa.
+      </p>
+      <p id="receiver-status" style="font-size:13px;margin-top:10px;color:var(--fg-muted);"></p>
+    </div>
+
+    <div class="card">
+      <div class="flex items-center justify-between gap-8" style="margin-bottom:4px;">
+        <div class="card-title" style="margin-bottom:0">
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          Foto ricevute
+        </div>
+        <span class="chip" id="photo-count">0 foto</span>
+      </div>
+      <p class="card-desc">Le foto appariranno qui non appena l'altra persona le condivide. Tocca una foto per ingrandirla.</p>
+
+      <div id="waiting-placeholder" style="text-align:center;padding:28px 0;color:var(--fg-muted);">
+        <svg viewBox="0 0 24 24" style="width:40px;height:40px;stroke:var(--fg-muted);fill:none;stroke-width:1.5;margin-bottom:10px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <p style="font-size:14px;">In attesa delle foto…</p>
+      </div>
+
+      <div class="photo-grid" id="receiver-grid"></div>
+    </div>
+
+    <button class="btn btn-outline" id="btn-leave-receiver" style="margin-top:4px;">
+      Esci dalla stanza
+    </button>
+
+  </div>
+
+  <!-- ───── SCHERMATA 3: Sei il MITTENTE (dai il consenso e carichi) ───── -->
+  <div id="screen-sender" class="hidden">
+
+    <!-- Blocco consenso -->
+    <div id="consent-block">
+      <div class="consent-box">
+        <svg viewBox="0 0 24 24" style="width:36px;height:36px;margin:0 auto 12px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h2>Richiesta di condivisione</h2>
+        <p>Qualcuno vuole che tu condivida delle foto. <strong>Sei tu a scegliere</strong> cosa condividere — nessuna foto parte senza la tua scelta.</p>
+        <p style="font-size:12px;margin-top:8px;">Toccando "Acconsento" si aprirà la tua galleria: scegli le foto da condividere e l'invio parte in automatico.</p>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:16px;">
+        <button class="btn btn-outline" id="btn-refuse-consent" style="flex:1;">Rifiuta</button>
+        <button class="btn btn-primary" id="btn-accept-consent" style="flex:2;">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Acconsento
+        </button>
+      </div>
+    </div>
+
+    <!-- Blocco invio (appare dopo consenso) -->
+    <div id="upload-block" class="hidden">
+      <input type="file" id="file-input" accept="image/*" multiple style="display:none">
+
+      <div class="card">
+        <p id="sender-conn-status" style="font-size:14px;font-weight:600;color:var(--fg-muted);text-align:center;padding:12px 0;">⚪ Connessione in corso…</p>
+
+        <div id="upload-progress" class="progress-wrap hidden">
+          <div class="progress-label">
+            <span id="progress-text">Invio in corso…</span>
+            <span id="progress-pct">0%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="info mt-12">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>Tieni questa pagina aperta finché l'invio non è completo.</span>
+      </div>
+
+      <button class="btn btn-outline" id="btn-leave-sender" style="margin-top:12px;">
+        Annulla
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox hidden" id="lightbox" role="dialog" aria-label="Anteprima foto">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Chiudi">✕</button>
+  <img id="lightbox-img" src="" alt="Foto ingrandita">
+</div>
+
+<!-- PeerJS: WebRTC peer-to-peer, server pubblico gratuito -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+
+<script>
+  // ══════════════════════════════════════════════════════
+  //  Donazione — PeerJS WebRTC peer-to-peer
+  //  Il ricevitore crea un Peer con ID = codice stanza.
+  //  Il mittente si connette a quell'ID e invia le foto
+  //  direttamente via DataChannel, senza server centrale.
+  //  Funziona tra iPhone, Android, PC — zero account.
+  // ══════════════════════════════════════════════════════
+
+  const $ = id => document.getElementById(id);
+
+  const screens = {
+    home:     $('screen-home'),
+    receiver: $('screen-receiver'),
+    sender:   $('screen-sender'),
+  };
+
+  function showScreen(name) {
+    Object.values(screens).forEach(s => s.classList.add('hidden'));
+    screens[name].classList.remove('hidden');
+  }
+
+  function genCode() {
+    const chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+    return 'don-' + Array.from({length: 6}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  }
+
+  // — State —
+  let myRole = null;
+  let roomCode = null;
+  let selectedFiles = [];
+  let myPeer = null;       // Peer locale
+  let activeConn = null;   // DataConnection attiva
+
+  // ══════════════════════════════════════════════════════
+  //  Helpers UI
+  // ══════════════════════════════════════════════════════
+
+  function setStatus(msg, type = 'info') {
+    // type: 'info' | 'ok' | 'err'
+    const el = $('receiver-status');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.color = type === 'err' ? 'var(--danger)' : type === 'ok' ? 'var(--accent)' : 'var(--fg-muted)';
+  }
+
+  function addPhotoToGrid(dataUrl) {
+    const grid = $('receiver-grid');
+    $('waiting-placeholder').style.display = 'none';
+    const div = document.createElement('div');
+    div.className = 'photo-thumb';
+    div.innerHTML = `<img src="${dataUrl}" alt="Foto">`;
+    div.querySelector('img').addEventListener('click', () => openLightbox(dataUrl));
+    grid.appendChild(div);
+    const count = grid.children.length;
+    $('photo-count').textContent = count + (count === 1 ? ' foto' : ' foto');
+  }
+
+  // ══════════════════════════════════════════════════════
+  //  RICEVITORE — crea stanza
+  // ══════════════════════════════════════════════════════
+
+  $('btn-create-room').addEventListener('click', () => {
+    $('btn-create-room').disabled = true;
+    $('btn-create-room').textContent = 'Connessione…';
+
+    roomCode = genCode();
+    myRole = 'receiver';
+
+    // Crea peer con ID = codice stanza (identificatore pubblico)
+    myPeer = new Peer(roomCode, {
+      host: '0.peerjs.com',
+      port: 443,
+      path: '/',
+      secure: true,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+        ]
+      }
+    });
+
+    // Timeout: se in 8 secondi non si connette, mostra errore
+    const timeout = setTimeout(() => {
+      if (!myPeer || myPeer.disconnected) {
+        setStatus('Errore: impossibile creare la stanza. Riprova.', 'err');
+        $('btn-create-room').disabled = false;
+        $('btn-create-room').innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Crea stanza e ricevi';
+      }
+    }, 8000);
+
+    myPeer.on('open', id => {
+      clearTimeout(timeout);
+      const shareURL = location.href.split('#')[0] + '#room=' + id;
+      $('share-link-text').textContent = shareURL;
+      showScreen('receiver');
+      setStatus('In attesa che l\'altra persona apra il link…');
+      $('btn-create-room').disabled = false;
+      $('btn-create-room').innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Crea stanza e ricevi';
+    });
+
+    myPeer.on('error', err => {
+      console.error('Peer error:', err);
+      if (err.type === 'unavailable-id') {
+        // Codice già usato — riprova con uno nuovo
+        myPeer.destroy();
+        roomCode = genCode();
+        $('btn-create-room').disabled = false;
+        $('btn-create-room').click();
+        return;
+      }
+      setStatus('Errore connessione: ' + err.message, 'err');
+      $('btn-create-room').disabled = false;
+      $('btn-create-room').innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Crea stanza e ricevi';
+    });
+
+    // Qualcuno si connette → ricevo messaggi
+    myPeer.on('connection', conn => {
+      activeConn = conn;
+      setStatus('Connessione stabilita — in attesa delle foto…', 'ok');
+
+      // Buffer per riassemblare i chunk di ogni foto
+      const buffers = {};
+
+      conn.on('data', msg => {
+        if (msg.type === 'photo-chunk') {
+          // Accumula chunk
+          if (!buffers[msg.id]) buffers[msg.id] = { chunks: [], total: msg.total, name: msg.name };
+          buffers[msg.id].chunks[msg.index] = msg.data;
+
+          const buf = buffers[msg.id];
+          const received = buf.chunks.filter(Boolean).length;
+
+          // Aggiorna barra progresso sul ricevitore se presente
+          if (buf.total > 1) setStatus(`Ricezione foto ${msg.photoNum}/${msg.photoTotal}: ${Math.round((received/buf.total)*100)}%`);
+
+          if (received === buf.total) {
+            // Tutti i chunk ricevuti — ricostruisce il dataUrl
+            const dataUrl = buf.chunks.join('');
+            addPhotoToGrid(dataUrl);
+            delete buffers[msg.id];
+            setStatus('Foto ricevuta ✓', 'ok');
+          }
+        } else if (msg.type === 'done') {
+          setStatus(`✅ Ricezione completata — ${msg.count} foto`, 'ok');
+        }
+      });
+
+      conn.on('close', () => {
+        setStatus('Il mittente ha chiuso la connessione.', 'info');
+        activeConn = null;
+      });
+
+      conn.on('error', e => setStatus('Errore: ' + e.message, 'err'));
+    });
+  });
+
+  // — COPIA LINK —
+  $('btn-copy-link').addEventListener('click', function() {
+    const url = $('share-link-text').textContent;
+    navigator.clipboard.writeText(url).then(() => {
+      this.textContent = 'Copiato!';
+      setTimeout(() => { this.textContent = 'Copia'; }, 2000);
+    }).catch(() => {
+      const span = $('share-link-text');
+      const range = document.createRange();
+      range.selectNodeContents(span);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      this.textContent = 'Selezionato!';
+      setTimeout(() => { this.textContent = 'Copia'; }, 2000);
+    });
+  });
+
+  // ══════════════════════════════════════════════════════
+  //  MITTENTE — entra nella stanza
+  // ══════════════════════════════════════════════════════
+
+  $('btn-join-room').addEventListener('click', joinRoom);
+  $('room-code-input').addEventListener('keydown', e => { if (e.key === 'Enter') joinRoom(); });
+
+  function joinRoom() {
+    const raw = $('room-code-input').value.trim().toLowerCase();
+    const code = raw.startsWith('don-') ? raw : 'don-' + raw;
+    if (code.length < 5) { $('room-code-input').focus(); return; }
+    enterSenderFlow(code);
+  }
+
+  function enterSenderFlow(code) {
+    roomCode = code;
+    myRole = 'sender';
+    // Mostra solo i 6 caratteri user-facing (senza prefisso 'don-')
+    $('sender-room-code').textContent = code.replace(/^don-/, '').toUpperCase();
+    showScreen('sender');
+    $('consent-block').classList.remove('hidden');
+    $('upload-block').classList.add('hidden');
+  }
+
+  // — CONSENSO —
+  $('btn-accept-consent').addEventListener('click', () => {
+    $('consent-block').classList.add('hidden');
+    $('upload-block').classList.remove('hidden');
+
+    // Crea peer mittente con ID casuale e connettiti al ricevitore
+    myPeer = new Peer(undefined, {
+      host: '0.peerjs.com',
+      port: 443,
+      path: '/',
+      secure: true,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+        ]
+      }
+    });
+
+    myPeer.on('open', () => {
+      activeConn = myPeer.connect(roomCode, { reliable: true });
+
+      activeConn.on('open', () => {
+        $('sender-conn-status').textContent = '🟢 Connesso — apri la galleria';
+        $('sender-conn-status').style.color = 'var(--accent)';
+        // Apre subito la galleria
+        $('file-input').click();
+      });
+
+      activeConn.on('error', e => {
+        $('sender-conn-status').textContent = '🔴 Errore connessione';
+        $('sender-conn-status').style.color = 'var(--danger)';
+        console.error(e);
+      });
+
+      activeConn.on('close', () => {
+        $('sender-conn-status').textContent = '⚪ Disconnesso';
+      });
+    });
+
+    myPeer.on('error', err => {
+      if (err.type === 'peer-unavailable') {
+        alert('Stanza non trovata. Il ricevitore potrebbe aver chiuso la pagina. Chiedi un nuovo link.');
+      } else {
+        alert('Errore di connessione: ' + err.message);
+      }
+      showScreen('home');
+    });
+  });
+
+  $('btn-refuse-consent').addEventListener('click', () => {
+    showScreen('home');
+    roomCode = null;
+    if (myPeer) { myPeer.destroy(); myPeer = null; }
+  });
+
+  // ══════════════════════════════════════════════════════
+  //  WAKE LOCK — mantiene la pagina attiva in background
+  // ══════════════════════════════════════════════════════
+
+  let wakeLock = null;
+
+  async function requestWakeLock() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => {
+          // Re-acquisisce se la pagina torna in primo piano
+          wakeLock = null;
+        });
+      }
+    } catch(e) {
+      console.warn('Wake Lock non disponibile:', e);
+    }
+  }
+
+  // Re-acquisisce il wake lock quando la pagina torna visibile
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible' && !wakeLock) {
+      await requestWakeLock();
+    }
+  });
+
+  // ══════════════════════════════════════════════════════
+  //  SELEZIONE FOTO — dopo consenso si apre la galleria
+  //  e l'invio parte automaticamente alla selezione
+  // ══════════════════════════════════════════════════════
+
+  $('file-input').addEventListener('change', async function() {
+    const files = Array.from(this.files);
+    this.value = '';
+    if (files.length === 0) return;
+
+    // Richiede wake lock per restare attivo in background
+    await requestWakeLock();
+
+    await sendFiles(files);
+  });
+
+  // ══════════════════════════════════════════════════════
+  //  INVIA FOTO via DataChannel (chunked per foto grandi)
+  // ══════════════════════════════════════════════════════
+
+  const CHUNK_SIZE = 16000; // ~16KB per chunk — compatibile con tutti i browser
+
+  async function sendFiles(files) {
+    if (!activeConn || !activeConn.open) {
+      alert('Connessione non ancora pronta. Riprova tra un secondo.');
+      return;
+    }
+
+    $('upload-progress').classList.remove('hidden');
+    $('sender-conn-status').textContent = '🟢 Invio in corso…';
+
+    const total = files.length;
+    let sent = 0;
+
+    for (const file of files) {
+      try {
+        const dataUrl = await readFileAsDataURL(file);
+        const photoId = Date.now() + '_' + Math.random().toString(36).slice(2);
+
+        const chunks = [];
+        for (let i = 0; i < dataUrl.length; i += CHUNK_SIZE) {
+          chunks.push(dataUrl.slice(i, i + CHUNK_SIZE));
+        }
+
+        for (let i = 0; i < chunks.length; i++) {
+          activeConn.send({
+            type: 'photo-chunk',
+            id: photoId,
+            index: i,
+            total: chunks.length,
+            data: chunks[i],
+            name: file.name,
+            photoNum: sent + 1,
+            photoTotal: total,
+          });
+          if (i % 10 === 9) await sleep(30);
+        }
+
+        sent++;
+        const pct = Math.round((sent / total) * 100);
+        $('progress-fill').style.width = pct + '%';
+        $('progress-pct').textContent = pct + '%';
+        $('progress-text').textContent = `Inviate ${sent} di ${total}…`;
+      } catch(e) {
+        console.warn('Errore su file:', file.name, e);
+      }
+    }
+
+    activeConn.send({ type: 'done', count: sent });
+    $('progress-text').textContent = '✅ Invio completato!';
+    $('sender-conn-status').textContent = '✅ Fatto!';
+    $('sender-conn-status').style.color = 'var(--accent)';
+
+    // Rilascia wake lock
+    if (wakeLock) { try { await wakeLock.release(); } catch {} wakeLock = null; }
+  }
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ══════════════════════════════════════════════════════
+  //  ESCI
+  // ══════════════════════════════════════════════════════
+
+  $('btn-leave-receiver').addEventListener('click', () => {
+    if (myPeer) { myPeer.destroy(); myPeer = null; }
+    activeConn = null;
+    roomCode = null;
+    $('receiver-grid').innerHTML = '';
+    $('waiting-placeholder').style.display = '';
+    $('photo-count').textContent = '0 foto';
+    showScreen('home');
+  });
+
+  $('btn-leave-sender').addEventListener('click', () => {
+    if (myPeer) { myPeer.destroy(); myPeer = null; }
+    if (wakeLock) { try { wakeLock.release(); } catch {} wakeLock = null; }
+    activeConn = null;
+    roomCode = null;
+    showScreen('home');
+  });
+
+  // ══════════════════════════════════════════════════════
+  //  LIGHTBOX
+  // ══════════════════════════════════════════════════════
+
+  function openLightbox(src) {
+    $('lightbox-img').src = src;
+    $('lightbox').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  $('lightbox-close').addEventListener('click', closeLightbox);
+  $('lightbox').addEventListener('click', e => { if (e.target === $('lightbox')) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  function closeLightbox() {
+    $('lightbox').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  // ══════════════════════════════════════════════════════
+  //  GESTIONE HASH (link diretto a una stanza)
+  // ══════════════════════════════════════════════════════
+
+  function checkHash() {
+    const hash = location.hash;
+    // Supporta sia #room=don-xxxxx che #room=XXXXX (codice breve)
+    const match = hash.match(/[#&]room=(don-[a-z0-9]+|[A-Z0-9]{4,10})/i);
+    if (match) {
+      const raw = match[1].toLowerCase();
+      const code = raw.startsWith('don-') ? raw : 'don-' + raw;
+      history.replaceState(null, '', location.pathname);
+      enterSenderFlow(code);
+    }
+  }
+
+  checkHash();
+  window.addEventListener('hashchange', checkHash);
+</script>
